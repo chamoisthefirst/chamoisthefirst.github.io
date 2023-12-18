@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title id="title">Home | Chá OS</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body>
+
+        <footer class="classname" id="footer">
+            <a href="timer.html"><button class="footer_button" id="far_left_button">🕒</button></a>
+            <a href="browser.html"><button class="footer_button">🌐</button></a>
+            <p id="time"></p>
+            <script>
+                    var timeThingOnTaskBar = setInterval(()=>{
+                    document.getElementById("time").innerHTML=Date().substring(16,28);
+                },1000);
+            </script>
+        </footer>
+    </body>
+</html>

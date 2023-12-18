@@ -1,0 +1,73 @@
+<!DOCTYPE html> 
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Browser | Chá OS</title>
+
+        <link rel='shortcut icon' type='img/png' href='Chá OS/favicon.png'>
+        <link rel="stylesheet" type="text/css" href="style.css">
+
+        <style>
+
+            header{
+                height:10vh;
+                text-align:center;
+            }
+            #input{
+                width:60vw;
+                height:4vh;
+                margin-top:4vh;
+                text-align:center;
+            }
+            #header{
+                height:10vh;
+            }
+            #webpage{
+                width:100vw;
+                height:90vh;
+            }
+            #url_iframe{
+                width:100vw;
+                height:90vh;
+            }
+            .browser_body{
+                background-color:#ffffff;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            
+            <input id="input" autocorrect="false" placeholder="Search or enter URL">
+            <a id="header_link" href="index.html"><button id="header_button"><b><h6 id="header_button_text">X</h6></b></button></a>
+        </header>
+
+        <div id="webpage">
+        </div>
+    
+
+        
+
+        <footer class="classname" id="footer">
+            <a href="timer.html"><button class="footer_button" id="far_left_button">🕒</button></a>
+            <a href="browser.html"><button class="footer_button">🌐</button></a>
+            <a href="music.html"><button class="footer_button">🎵</button></a>
+            <p id="time"></p>
+            <script>
+                    var timeThingOnTaskBar = setInterval(()=>{
+                    document.getElementById("time").innerHTML=Date().substring(16,28);
+                },1000);
+            </script>
+        </footer>
+
+        <script>
+            var searchbar=document.getElementById("input");
+            searchbar.onkeyup = e =>{
+                if(searchbar.value){
+                    document.getElementById("webpage").innerHTML=`<iframe id="url_iframe" src="${searchbar.value}"></iframe>`;
+                }
+            }
+        </script>
+
+    </body>
+</html>

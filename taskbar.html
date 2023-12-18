@@ -1,0 +1,9 @@
+<a href="timer.html"><button class="footer_button">🕒</button></a>
+<a href="browser.html"><button class="footer_button">🌐</button></a>
+<p id="time"></p>
+<script>
+        var timeThingOnTaskBar = setInterval(()=>{
+        document.getElementById("time").innerHTML=Date().substring(16,28);
+        console.log(`h : ${hour} | m : ${minute} | s : ${second}`)
+    },1000);
+</script>

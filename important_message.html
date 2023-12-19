@@ -14,7 +14,7 @@
     <script>
       var text = "RICK ASTLEY Never Gonna Give You Up(again)\n\n\nnever gonna give you up\n(like last week)\n\nnever gonna let you down\n(like yesterday)\n\nnever gonna run around and desert you\n(like last year)\n\nnever gonna make you cry\n(like this morning)\n\nnever gonna say goodbye\n(like last night)\n\nnever gonna tell a lie and hurt you\n(scratch that)";
       var i = 0;
-      interval = setInterval(() => (document.body.innerText = text.slice(" ", ++i)) && i === text.length && clearInterval(interval) document.body.innerText += "Written to your mom.", 100);
+      interval = setInterval(() => (document.body.innerText = text.slice(" ", ++i)) && i === text.length && clearInterval(interval), 100);
     </script>
   </body>
 </html>

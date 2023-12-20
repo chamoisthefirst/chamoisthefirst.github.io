@@ -80,6 +80,9 @@ footer:hover{
     width:100vw;
     text-align:center;
 }
+.footer_button_image{
+    width:2vw;
+}
 
 #header_button{
     position:fixed;

@@ -109,7 +109,7 @@
             }
             fileAdder.onchange=e=>{
                 fileList=e.target.files;
-                addSong(fileList[0].name)
+                addSong(fileList[0].name.replace(".mp3",""))
                 const auxURL=URL.createObjectURL(fileList[0]);
                 songs.push(auxURL)
                 checkSongAmount();
@@ -168,5 +168,10 @@
             </a>
             <p id="time"></p>
         </footer>
+         <script>
+                var timeThingOnTaskBar = setInterval(()=>{
+                document.getElementById("time").innerHTML=Date().substring(16,28);
+            },1000);
+        </script>
     </body>
 </html>

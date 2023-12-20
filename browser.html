@@ -135,5 +135,11 @@
             }
         </script>
 
+        <script>
+            var timeThingOnTaskBar = setInterval(()=>{
+                document.getElementById("time").innerHTML=Date().substring(16,28);
+            },1000);
+        </script>
+
     </body>
 </html>

@@ -109,10 +109,16 @@
         <script>
             var searchbar=document.getElementById("input");
             searchbar.onkeyup = e =>{
-                if(searchbar.value){
-                    document.getElementById("webpage").innerHTML=`<iframe id="url_iframe" src="${searchbar.value}"></iframe>`;
-                }else{
-                    document.getElementById("webpage").innerHTML=""
+                if(e.key==="Enter"){
+                    if(!searchbar.value.includes("https://") && !searchbar.value.includes("https://") && !searchbar.value.includes("file:///")){
+                        var txt = `https://${searchbar.value}`
+                        searchbar.value=txt;
+                    }
+                    if(searchbar.value){
+                        document.getElementById("webpage").innerHTML=`<iframe id="url_iframe" src="${searchbar.value}"></iframe>`;
+                    }else{
+                        document.getElementById("webpage").innerHTML=""
+                    }
                 }
             }
         </script>

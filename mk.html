@@ -173,29 +173,30 @@ input[type=text]:focus {
 	</p>
 	<div class="world-select hidden" id="worlds"><div class="world" id="1680826908729542649"><strong>bruh, you can't stand on the ground here</strong><br>Apr 7, 2023, 1:57 PM<br>Alpha 0.8.0<br>162 bytes used</div><div class="world" id="1680826463631244330"><strong>World1</strong><br>Apr 6, 2023, 7:17 PM<br>Alpha 0.8.0<br>133 bytes used</div><div class="world" id="1680123021345758930"><strong>World</strong><br>Apr 6, 2023, 7:03 PM<br>Alpha 0.8.0<br>195 bytes used</div><div class="world" id="167976858196821921"><strong>private world(chamois' city WIP)</strong><br>Apr 6, 2023, 1:42 AM<br>Alpha 0.8.0<br>20,198 bytes used</div><div class="world" id="1680186821057249341"><strong>private</strong><br>Mar 30, 2023, 9:34 AM<br>Alpha 0.8.0<br>171 bytes used</div><div class="world" id="1680115121477655002"><strong>bruh the password is literally password</strong><br>Mar 29, 2023, 1:43 PM<br>Alpha 0.8.0<br>285 bytes used</div><div class="world" id="1680035134858739337"><strong>Temple</strong><br>Mar 29, 2023, 12:14 PM<br>Alpha 0.8.0<br>220 bytes used</div><div class="world" id="1675277160288358958"><strong>Public server. Building is encouarged while griefing eqals ban.</strong><br>Mar 29, 2023, 12:13 PM<br>Alpha 0.8.0<br>83,329 bytes used</div><div class="world" id="1679602955048904874"><strong>KASA Sal Khan Space Center+Town</strong><br>Mar 29, 2023, 12:09 PM<br>Alpha 0.8.0<br>163,161 bytes used</div><div class="world" id="1679936490888345512"><strong>chamois' city, public world</strong><br>Mar 28, 2023, 1:38 PM<br>Alpha 0.8.0<br>19,557 bytes used</div><div class="world" id="1677564277084911817"><strong>Public parkour world</strong><br>Feb 28, 2023, 12:04 AM<br>Alpha 0.7.1<br>14,037 bytes used</div><div class="world" id="1675486719340655319"><strong>USSR, Terra, MRC, LL, and ROS</strong><br>Feb 3, 2023, 11:01 PM<br>Alpha 0.7.1<br>1,466,306 bytes used</div><div class="world" id="1674888605557940045"><strong>Raeshawna's Palace.</strong><br>Jan 28, 2023, 12:50 AM<br>Alpha 0.7.1<br>172,349 bytes used</div><div class="world" id="1674688756646122110"><strong>building a space station</strong><br>Jan 25, 2023, 5:19 PM<br>Alpha 0.7.1<br>12,447 bytes used</div></div>
 	<p id="message" class="hidden" style="position: absolute; top: 10px; right: 10px; z-index: 1; text-align: right; background-color: rgba(255, 255, 255, 0.3);"></p>
-	<footer class="classname" id="footer">
-            <a href="timer.html">
-                <button class="footer_button" id="far_left_button">
-                    <img src="clock_icon.png" class="footer_button_image">
-                </button>
-            </a>
-            <a href="browser.html">
-                <button class="footer_button">
-                    <img src="browser.webp" class="footer_button_image">
-                </button>
-            </a>
-            <a href="mk.html">
-                <button class="footer_button">
-                    <img src="minekhan.ico" class="footer_button_image">
-                </button>
-            </a>
-            <a href="music.html">
-                <button class="footer_button">
-                    <img src="music.webp" class="footer_button_image">
-                </button>
-            </a>
-            <p id="time"></p>
-        </footer>
+	
+    <footer class="classname" id="footer">
+        <a href="timer.html">
+            <button class="footer_button" id="far_left_button">
+                <img src="clock_icon.png" class="footer_button_image">
+            </button>
+        </a>
+        <a href="browser.html">
+            <button class="footer_button">
+                <img src="browser.webp" class="footer_button_image">
+            </button>
+        </a>
+        <a href="mk.html">
+            <button class="footer_button">
+                <img src="minekhan.ico" class="footer_button_image">
+            </button>
+        </a>
+        <a href="music.html">
+            <button class="footer_button">
+                <img src="music.webp" class="footer_button_image">
+            </button>
+        </a>
+        <p id="time"></p>
+    </footer>
     <script>
 		// Code edits will erase the world.
 		// Place save code here to load your world. Make extra sure you got it copied so you don't paste in the wrong thing and delete your world on accident lol
@@ -4748,6 +4749,8 @@ async function MineKhan() {
 		textSize(10)
 		canvas.focus()
 		changeScene("play")
+        document.getElementById("footer").classList.add("hidden")
+        document.getElementById("exit_botton").classList.add("hidden")
 	}
 
 	/**
@@ -7579,7 +7582,7 @@ async function MineKhan() {
 		Button.add(mid, height / 2 + 50, w2, 40, "Back", "editworld", () => changeScene(previousScreen))
 
 		// Pause buttons
-		Button.add(width / 2, 225, 300, 40, "Resume", "pause", play)
+		Button.add(width / 2, 225, 300, 40, "Resume", "pause",  play)
 		Button.add(width / 2, 275, 300, 40, "Options", "pause", () => changeScene("options"))
 		Button.add(width / 2, 325, 300, 40, "Save", "pause", save, nothing, () => `Save the world to your browser + account. Doesn't work in incognito.\n\nLast saved ${(0,_js_utils_js__WEBPACK_IMPORTED_MODULE_10__.timeString)(now - world.edited)}.`)
 		Button.add(width / 2, 375, 300, 40, "Get Save Code", "pause", () => {
@@ -7591,15 +7594,14 @@ async function MineKhan() {
 			initMultiplayer()
 		}, () => !!multiplayer || !location.href.startsWith("https://willard.fun"))
 		Button.add(width / 2, 475, 300, 40, "Exit Without Saving", "pause", () => {
-            
-            document.getElementById("footer").classList.remove("hidden")
-            document.getElementById("exit_botton").classList.remove("hidden")
 			// savebox.value = world.getSaveString()
 			if (multiplayer) {
 				multiplayer.close()
 			}
 			initWorldsMenu()
 			changeScene("main menu")
+            document.getElementById("footer").classList.remove("hidden")
+            document.getElementById("exit_botton").classList.remove("hidden")
 		})
 
 		// Options buttons

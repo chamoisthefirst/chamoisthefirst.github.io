@@ -101,7 +101,7 @@
             var songNum=0;
 
             function editSong(num,title,artist){
-                if(num<songNum.length){
+                if(num>=songNum.length){
                     console.error("You are trying to edit a song that doesn't exist")
                     return;
                 }

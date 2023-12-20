@@ -98,14 +98,35 @@
             song_items=document.getElementsByClassName("song")
             var fileList;
             
+            var songNum=0;
+
+            function editSong(num,title,artist){
+                if(num<songNum.length){
+                    console.error("You are trying to edit a song that doesn't exist")
+                    return;
+                }
+                if(title && artist){
+                    document.getElementById(`${num}_title`).innerText=title;
+                    document.getElementById(`${num}_artist`).innerText=artist;
+                }else{
+                    console.error(`missing argument @ editSong(${num},${title},${artist})`)
+                }
+            }
+            
             function addSong(name){
+                var artist="Unknown"
+                if(document.getElementById("artist").value){
+                    artist = document.getElementById("artist").value;
+                }
                 var song=document.createElement("div");
                 song.className="song";
                 song.innerHTML=`
-                    <h1>${name}</h1>
+                    <h1 id="${songNum}_title">${name}</h1>
                     <p>By</p>
+                    <p id="${songNum}_artist">${artist}</p>
                 `
                 list.append(song);
+                songNum++
             }
             fileAdder.onchange=e=>{
                 fileList=e.target.files;

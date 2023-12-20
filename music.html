@@ -10,17 +10,28 @@
             header{
                 height:10vh;
                 margin:0px;
+                background-color:#0e1029;
+                display:flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                gap:10px;
             }
             .song_list{
-                background-color:#303030ee;
+                background-color:#06081d;
                 text-align:center;
             }
 
             #lists{
-                width:100vw;
+                width:100%;
                 height:90vh;
-                background-color:#303030dd;
-                display:block;
+                background-color:#06081d;
+                /*padding:50px;*/
+                display:flex;
+                align-items: center;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap:20px;
                 margin:0px;
             }
 
@@ -44,6 +55,26 @@
                 background-color:#303330;
                 display:inline;
             }
+
+            input, #add-file{
+                padding:10px;
+                background:none;
+                border:solid 2px white;
+                border-radius:20px;
+                color:white;
+                transition: 500ms transform cubic-bezier(0.165, 0.84, 0.44, 1);
+            }
+            #add-file:hover{
+                transform:scale(1.05);
+            }
+            .song{
+                width:200px;
+                height:200px;
+                background:#0e1029;
+                border:solid 4px #0e1130;
+                border-radius: 1rem;
+                color:white;
+            }
         </style>
     </head>
     <body>
@@ -53,25 +84,67 @@
             <input id="artist" placeholder="artist">
             <input id="title" placeholder="song title">
             <input id="track_num" placeholder="track #">
-            <button onClick="addFile()">add file</button>
+            <input type="file" id="add-file"></input>
             <a id="header_link" href="index.html"><button id="header_button"><b><h6 id="header_button_text">X</h6></b></button></a>
         </header>
 
-        <div id="lists">
+        <div id="lists"></div>
 
-            <div id="playlists">
-                <h2>playlists</h2>
-            </div>
+        <script>
 
-            <div id="artists">
-                <h2>artists</h2>
-            </div>
+            const fileAdder=document.getElementById("add-file"),
+            songs=[],
+            list=document.getElementById("lists"),
+            song_items=document.getElementsByClassName("song")
+            var fileList;
+            
+            function addSong(name){
+                var song=document.createElement("div");
+                song.className="song";
+                song.innerHTML=`
+                    <h1>${name}</h1>
+                    <p>By</p>
+                `
+                list.append(song);
+            }
+            fileAdder.onchange=e=>{
+                fileList=e.target.files;
+                addSong(fileList[0].name)
+                const auxURL=URL.createObjectURL(fileList[0]);
+                songs.push(auxURL)
+                checkSongAmount();
+            }
+            
+            var audio=new Audio;
+            function play(src) {
+                audio = new Audio(src);
+                audio.play();
+            }
+            function checkSongAmount(){
+                if(song_items.length>0){
+                    for(let i=0;i<song_items.length;i++){
+                        song_items[i].onclick=()=>{
+                            if(audio.src===songs[i]&&!audio.paused){
+                                audio.pause();
+                            }else if(audio.paused){
+                                audio=new Audio(songs[i]);
+                                audio.play();
+                            }else if(!audio.paused){
+                                audio.pause();
+                                audio.currentTime=0;
+                                console.log(audio)
+                                audio=new Audio(songs[i]);
+                                console.log(audio);
+                                setTimeout(function(){
+                                    audio.play();
+                                }, 3000 )
+                            }
+                        }
+                    }
+                }
+            }
+        </script>
 
-            <div id="song_list">
-                <h2>songs</h2>
-            </div>
-
-        </div>
         <footer class="classname" id="footer">
             <a href="timer.html">
                 <button class="footer_button" id="far_left_button">
@@ -95,37 +168,5 @@
             </a>
             <p id="time"></p>
         </footer>
-        <script>
-            function addSong(fileLocation,song,artist,trackNum){
-                if(trackNum){
-                    document.getElementById("song_list").innerHTML+=(`<button class="song_list" onClick="play('${fileLocation}')"><p class="song_list_text">${trackNum} ${song} | ${artist}</p></button>`);
-                }else{
-                    document.getElementById("song_list").innerHTML+=(`<button class="song_list" onClick="play('${fileLocation}')"><p class="song_list_text">${song} | ${artist}</p></button>`);
-                }
-            }
-            function addFile(){
-                var fileSource = document.getElementById("file_source").value
-                var artist = document.getElementById("artist").value
-                var song = document.getElementById("title").value
-                var trackNum = document.getElementById("track_num").value
-                addSong(fileSource,song,artist,trackNum)
-            }
-            
-
-            var audio;
-            function play(src) {
-                audio = new Audio(src);
-                audio.play();
-            }
-
-        </script>
-
-        
-            <script>
-                    var timeThingOnTaskBar = setInterval(()=>{
-                    document.getElementById("time").innerHTML=Date().substring(16,28);
-                },1000);
-            </script>
-        
     </body>
 </html>

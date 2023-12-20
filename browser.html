@@ -7,8 +7,30 @@
         <link rel='shortcut icon' type='img/png' href='Chá OS/favicon.png'>
         <link rel="stylesheet" type="text/css" href="style.css">
 
-        <style>
+        <style id="footer_style">
 
+            footer{
+                position: fixed;
+                padding:10px;
+                bottom:0px;
+                left:50%;
+                width: 50%;
+                height:10vh;
+                transform: translate(-50%,50%);
+                opacity:0.5;
+                border-top-left-radius: 20px;
+                border-top-right-radius: 20px;
+                background-color:#131313;
+                border:solid 5px #202020;
+                color:white;
+                font-family:cursive;
+                text-align:center;
+                transition:1s all cubic-bezier(0.165, 0.84, 0.44, 1);
+            }
+            body{
+                background-image:none;
+                background-color:#131313;
+            }
             header{
                 background-color:#282834;
                 height:5vh;
@@ -21,7 +43,7 @@
                 width:60vw;
                 height:3vh;
                 margin-top:0.5vh;
-                text-align:center;
+                text-align:left;
                 border-radius:1em;
                 border-color:#0000;
                 background-color:#1b1b1b;
@@ -44,7 +66,7 @@
             #top_header_div{
                 position:fixed;
                 top:0px;
-                width:20vw;
+                min-width:20vw;
                 height:5vh;
                 background-color:#282834;
                 border-top-right-radius:1ex;
@@ -61,7 +83,7 @@
                 right:1vw;;
                 top:-2.5vh;
             }
-            #webpage{
+            .webpage{
                 width:100vw;
                 height:90vh;
             }
@@ -70,11 +92,17 @@
                 top:10vh;
                 left:0px;
                 width:100vw;
-                height:83vh;
+                height:90vh;/*83vh to be just above task bar*/
                 border:0px;
             }
             .browser_body{
                 background-color:#ffffff;
+            }
+            #default{
+                position: fixed;
+                top:10vh;
+                left:1vw;
+                text-align:left;
             }
         </style>
     </head>
@@ -88,8 +116,12 @@
             <input id="input" autocorrect="false" placeholder="        🔍︎ Search or enter URL">
         </header>
 
-        <div id="webpage">
+        <div id="default">
+            <h1>Things we at CháOS do not do keep</h1>
+            <h2> • Your browsing history.<br> • Your site data.<br> • You safe.</h2>
         </div>
+
+        <div id="webpage" class="webpage"></div>
     
 
         
@@ -117,8 +149,15 @@
             </a>
             <p id="time"></p>
         </footer>
+        <script>
+                var timeThingOnTaskBar = setInterval(()=>{
+                document.getElementById("time").innerHTML=Date().substring(16,28);
+            },1000);
+        </script>
 
         <script>
+            
+            
             var searchbar=document.getElementById("input");
             searchbar.onkeyup = e =>{
                 if(e.key==="Enter"){
@@ -127,18 +166,20 @@
                         searchbar.value=txt;
                     }
                     if(searchbar.value){
+                        document.getElementById("webpage").classList.remove("hidden")
+                        document.getElementById("default").classList.add("hidden")
+                        document.getElementById("footer").classList.add("hidden")
                         document.getElementById("webpage").innerHTML=`<iframe id="url_iframe" src="${searchbar.value}"></iframe>`;
                     }else{
+                        document.getElementById("webpage").classList.add("hidden")
+                        document.getElementById("default").classList.remove("hidden")
+                        document.getElementById("footer").classList.remove("hidden")
                         document.getElementById("webpage").innerHTML=""
                     }
+                
+                    
                 }
             }
-        </script>
-
-        <script>
-            var timeThingOnTaskBar = setInterval(()=>{
-                document.getElementById("time").innerHTML=Date().substring(16,28);
-            },1000);
         </script>
 
     </body>

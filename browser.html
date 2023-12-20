@@ -95,15 +95,27 @@
         
 
         <footer class="classname" id="footer">
-            <a href="timer.html"><button class="footer_button" id="far_left_button">🕒</button></a>
-            <a href="browser.html"><button class="footer_button">🌐</button></a>
-            <a href="music.html"><button class="footer_button">🎵</button></a>
+            <a href="timer.html">
+                <button class="footer_button" id="far_left_button">
+                    <img src="clock_icon.png" class="footer_button_image">
+                </button>
+            </a>
+            <a href="browser.html">
+                <button class="footer_button">
+                    <img src="browser.webp" class="footer_button_image">
+                </button>
+            </a>
+            <a href="mk.html">
+                <button class="footer_button">
+                    <img src="minekhan.ico" class="footer_button_image">
+                </button>
+            </a>
+            <a href="music.html">
+                <button class="footer_button">
+                    <img src="music.webp" class="footer_button_image">
+                </button>
+            </a>
             <p id="time"></p>
-            <script>
-                    var timeThingOnTaskBar = setInterval(()=>{
-                    document.getElementById("time").innerHTML=Date().substring(16,28);
-                },1000);
-            </script>
         </footer>
 
         <script>

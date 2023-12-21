@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+
+        body{
+            margin:0px;
+            padding:0px;
+        }
+
+        .window{
+            position:absolute;
+            border:solid 2px black;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .win-bar{
+            height:30px;
+            border-bottom: solid 2px black;
+            display: flex;
+            flex-direction: row;
+            gap:20px;
+            min-width: fit-content;
+            align-items: center;
+            justify-content: center;
+            background:black;
+        }
+        .win-bar h5{
+            -webkit-user-select: none; /* Safari */
+            -ms-user-select: none; /* IE 10 and IE 11 */
+            user-select: none; /* Standard syntax */
+        }
+
+        .win-content{
+            width:100%;
+            height: calc(100% - 20px);
+            background:white;
+        }
+
+        .win-buttons{
+            display: inherit;
+            flex-direction: row;
+            gap:20px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .resizable-handle {
+            width: 10px;
+            height: 10px;
+            background-color: #3498db;
+            position: absolute;
+            bottom: 0px;
+            right: 0px;
+            cursor: nwse-resize; /* Cursor style for the handle */
+            transition: cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+    </style>
+</head>
+<body>
+    <div class="window" style="left:0px;top:0px;width:400px;height:200px;" id="win">
+        <div class="win-bar">
+            <h5>Title of win</h5>
+            <div class="win-min">
+                <svg width="15" height="2" viewBox="0 0 15 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 1H15" stroke="white" stroke-width="2"/>
+                </svg>                        
+            </div>
+            <div class="win-max">
+                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="1" y="1" width="13" height="13" stroke="white" stroke-width="2"/>
+                </svg>                                                
+            </div>
+            <div class="win-close">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0.353546 0.646454L15.3535 15.6465" stroke="white" />
+                    <path d="M15.3535 0.649994L0.353546 15.65" stroke="white" />
+                </svg>
+            </div>
+        </div>
+        <div class="win-content">
+        </div>
+        <div class="resizable-handle"></div>
+    </div>
+
+    <div class="window" style="left:400px;top:0px;width:400px;height:200px;" id="win">
+        <div class="win-bar">
+            <h5>Title of win</h5>
+            <div class="win-min">
+                <svg width="15" height="2" viewBox="0 0 15 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 1H15" stroke="white" stroke-width="2"/>
+                </svg>                        
+            </div>
+            <div class="win-max">
+                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="1" y="1" width="13" height="13" stroke="white" stroke-width="2"/>
+                </svg>                                                
+            </div>
+            <div class="win-close">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0.353546 0.646454L15.3535 15.6465" stroke="white" />
+                    <path d="M15.3535 0.649994L0.353546 15.65" stroke="white" />
+                </svg>
+            </div>
+        </div>
+        <div class="win-content">
+        </div>
+        <div class="resizable-handle"></div>
+    </div>
+
+    <script src="window.js"></script>
+    <script>
+        const resizableHandles = document.querySelectorAll('.resizable-handle');
+
+    resizableHandles.forEach(handle => {
+        let isResizing = false;
+        let resizableDiv = handle.parentElement;
+        let originalWidth, originalHeight, originalX, originalY;
+
+        handle.addEventListener('mousedown', (e) => {
+            isResizing = true;
+            originalWidth = parseFloat(getComputedStyle(resizableDiv, null).getPropertyValue('width').replace('px', ''));
+            originalHeight = parseFloat(getComputedStyle(resizableDiv, null).getPropertyValue('height').replace('px', ''));
+            originalX = e.clientX;
+            originalY = e.clientY;
+
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', () => {
+                isResizing = false;
+                document.removeEventListener('mousemove', handleMouseMove);
+            });
+        });
+
+    function handleMouseMove(e) {
+        if (isResizing) {
+            const newWidth = originalWidth + (e.clientX - originalX);
+            const newHeight = originalHeight + (e.clientY - originalY);
+
+            resizableDiv.style.width = newWidth + 'px';
+            resizableDiv.style.height = newHeight + 'px';
+        }
+    }
+});
+    </script>
+</body>
+</html>

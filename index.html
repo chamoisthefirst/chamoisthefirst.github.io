@@ -6,6 +6,435 @@
     <meta charset="utf-8">
     <title id="title">Home | Chá OS</title>
     <link rel='shortcut icon' type='img/png' href='favicon.png'>
+    <link rel="stylesheet" type="text/css" href="style2.css">
+    
+
+</head>
+<body>
+
+    <div id="timer" class="hidden">
+        
+        <style id="css">
+            #display{
+                background-image: linear-gradient(
+                    -45deg,#ff00f2 12.5% , #ff0000
+                );
+                background-size:8px 8;
+                color:#ffffff;
+            }
+        </style>
+
+        <header id="timer_header">
+        <h2 class="timer_header">Timer</h2>
+        <!--h4 class="header">beta</h4-->
+        <button id="header_button" onClick="document.getElementById('timer').classList.add('hidden')"></button>
+        </header>
+
+        <div id="display">
+            <h2 id="disp">00 : 00 : 00</h2>
+        </div>
+
+        <input type="number" class="timer_input" id="hour" placeholder="hours">
+        <input type="number" class="timer_input" id="minute" placeholder="minutes">
+        <input type="number" class="timer_input" id="second" placeholder="seconds">
+        <br>
+        <br>
+        <button class="timer_input" id="start" onClick="start()"><h2 class="input" id="h2_start">Start</h2></button>
+
+        <div id="shutup"></div>
+
+        <script>
+
+            var cssReg = "body{background-color:#333333;color:#999999;}#display{background-color:#999999;color:#333333;}";
+            var cssAlert = "body{background-color:#dd0000;color:#333333;}#display{background-color:#999999;color:#333333;}";
+            
+            var hour, minute, second;
+            
+            var d = document;
+            
+            function start(){
+            
+            document.getElementById("css").innerhtml=cssReg;
+            
+            hour = d.getElementById("hour").value;
+            minute = d.getElementById("minute").value;
+            second = d.getElementById("second").value;
+            
+            if(!minute) {minute = 0;}
+            if(!second) {second = 0;}
+            if(!hour) {hour = 0;}
+            
+            var dur = hour * 3600 + minute * 60 + second;
+            
+            var h = hour;
+            var m = minute;
+            var s = second;
+            
+            var t = 0;
+            
+            var alrm
+            
+            console.log(dur);
+            
+            function alarm(){
+                
+                alrm = setInterval(()=>{
+                    var audio = new Audio("Danger Alarm Meme Sound Effect.mp3")
+                    audio.play()
+                },6000)
+                
+                document.getElementById("shutup").innerHTML="<button class=\"input\" onClick='location.reload()'>dismiss</button>"
+            }
+            
+            var a = setInterval(()=>{
+            
+            if(s<=0){
+            s=59;
+            t=0;
+            
+            
+            
+            if(m>0){
+            m-=1;
+            }else if(hour >0){
+            m=59;
+            h-=1;
+            }
+            
+            
+            }else{
+            s--;
+            }
+            
+            
+            var b = `${h} : ${m} : ${s}`;
+            
+            console.log(b);
+            document.getElementById("disp").innerHTML=b
+            
+            if(dur>1){
+            dur-=1;
+            //console.log(dur);
+            }else{
+            clearInterval(a);
+            console.error("time's up!");
+            var audio = new Audio("Danger Alarm Meme Sound Effect.mp3")
+            audio.play()
+            alarm();
+            document.getElementById("css").innerHTML=cssAlert;
+            document.getElementById("hour").value="";
+            document.getElementById("minute").value="";
+            document.getElementById("second").value="";
+            }
+            t++;
+            },1000);
+            
+            
+            }
+            
+            d.getElementById("hour").onkeyup = (e)=>{
+            if(e.key === "Enter"){
+            start();
+            }
+            }
+            
+            d.getElementById("minute").onkeyup = (e)=>{
+            if(e.key === "Enter"){
+            start();
+            }
+            }
+            
+            d.getElementById("second").onkeyup = (e)=>{
+            if(e.key === "Enter"){
+            start();
+            }
+            }
+            
+            </script>
+    </div>
+
+
+    <div id="browser" class="hidden">
+
+        <div class="container">
+            <div class="row">
+
+                <input id="input" autocorrect="false" placeholder="🔍︎ Search or enter URL">
+
+            </div>
+          
+            <div class="content" id="default">
+              <h1>Things we at CháOS do not keep</h1>
+              <h2> • Your browsing history.<br> • Your site data.<br> • You safe.</h2>
+            </div>
+            <div id="webpage"></div>
+          </div>
+
+          <script>
+            
+            
+            var searchbar=document.getElementById("input");
+            searchbar.onkeyup = e =>{
+                if(e.key==="Enter" && searchbar.value){
+                    if(!searchbar.value.includes("https://") && !searchbar.value.includes("https://") && !searchbar.value.includes("file:///")){
+                        var txt = `https://swisscows.com/en/web?query=${searchbar.value}`
+                        searchbar.value=txt;
+                    }
+                    if(searchbar.value){
+                        document.getElementById("webpage").classList.remove("hidden")
+                        document.getElementById("default").classList.add("hidden")
+                        document.getElementById("webpage").innerHTML=`<iframe id="url_iframe" src="${searchbar.value}"></iframe>`;
+                        document.getElementById("website_title").innerText = document.getElementById('url_iframe').contentWindow.document.title
+                    }else{
+                        document.getElementById("webpage").classList.add("hidden")
+                        document.getElementById("default").classList.remove("hidden")
+                        document.getElementById("webpage").innerHTML=""
+                    }
+                
+                    
+                }else{
+                    
+                    document.getElementById("webpage").classList.add("hidden")
+                        document.getElementById("default").classList.remove("hidden")
+                        document.getElementById("webpage").innerHTML=""
+                }
+
+            }
+        </script>
+
+    </div>
+
+
+    <!--div id="minekhan" class="hidden">
+
+        <div id="background-text">
+			<h1>MineKhan</h1>
+			<p>Play MineKhan online! This game is a free Minecraft clone developed on <a href="https://www.khanacademy.org/computer-programming/minekhan/5647155001376768">Khan Academy</a>, and later moved to my own website so that I could take advantage of multiplayer servers. The front-end code is completely open source and maintained on <a href="https://github.com/Willard21/MineKhan">GitHub</a>, where contributions are welcome.</p>
+		</div>
+	<canvas id="overlay" tabindex="0" width="1366" height="637" style="position: absolute; top: 0px; left: 0px"></canvas>
+	<input type="text" id="savebox" class="hidden" spellcheck="false" style="position: absolute; top: 10px; left: 10px; z-index: 1;">
+	<input type="text" id="boxcentertop" class="hidden" spellcheck="false">
+	<div id="quota" class="hidden"></div>
+	<div id="onhover" class="hidden"></div>
+    <div id="idk" class="hidden"></div>
+	<div id="chat" class="hidden"></div>
+	<input id="chatbar" class="hidden" list="commands">
+	<datalist id="commands">
+		<option>/ban</option>
+ 		<option>/online</option>
+	</datalist>
+	<p id="savedirections" class="hidden" style="position: absolute; top: 40px; left: 10px; z-index: 1; background-color: rgba(255, 255, 255, 0.3);">
+		To share your world on KA, copy/paste the saveString<br>
+		from this box into the code on line 190.<br>
+		var loadString = "Your Code Here";<br>
+		Then save the program as a Spin-off.
+	</p>
+	<div class="world-select hidden" id="worlds"><div class="world" id="1680826908729542649"><strong>bruh, you can't stand on the ground here</strong><br>Apr 7, 2023, 1:57 PM<br>Alpha 0.8.0<br>162 bytes used</div><div class="world" id="1680826463631244330"><strong>World1</strong><br>Apr 6, 2023, 7:17 PM<br>Alpha 0.8.0<br>133 bytes used</div><div class="world" id="1680123021345758930"><strong>World</strong><br>Apr 6, 2023, 7:03 PM<br>Alpha 0.8.0<br>195 bytes used</div><div class="world" id="167976858196821921"><strong>private world(chamois' city WIP)</strong><br>Apr 6, 2023, 1:42 AM<br>Alpha 0.8.0<br>20,198 bytes used</div><div class="world" id="1680186821057249341"><strong>private</strong><br>Mar 30, 2023, 9:34 AM<br>Alpha 0.8.0<br>171 bytes used</div><div class="world" id="1680115121477655002"><strong>bruh the password is literally password</strong><br>Mar 29, 2023, 1:43 PM<br>Alpha 0.8.0<br>285 bytes used</div><div class="world" id="1680035134858739337"><strong>Temple</strong><br>Mar 29, 2023, 12:14 PM<br>Alpha 0.8.0<br>220 bytes used</div><div class="world" id="1675277160288358958"><strong>Public server. Building is encouarged while griefing eqals ban.</strong><br>Mar 29, 2023, 12:13 PM<br>Alpha 0.8.0<br>83,329 bytes used</div><div class="world" id="1679602955048904874"><strong>KASA Sal Khan Space Center+Town</strong><br>Mar 29, 2023, 12:09 PM<br>Alpha 0.8.0<br>163,161 bytes used</div><div class="world" id="1679936490888345512"><strong>chamois' city, public world</strong><br>Mar 28, 2023, 1:38 PM<br>Alpha 0.8.0<br>19,557 bytes used</div><div class="world" id="1677564277084911817"><strong>Public parkour world</strong><br>Feb 28, 2023, 12:04 AM<br>Alpha 0.7.1<br>14,037 bytes used</div><div class="world" id="1675486719340655319"><strong>USSR, Terra, MRC, LL, and ROS</strong><br>Feb 3, 2023, 11:01 PM<br>Alpha 0.7.1<br>1,466,306 bytes used</div><div class="world" id="1674888605557940045"><strong>Raeshawna's Palace.</strong><br>Jan 28, 2023, 12:50 AM<br>Alpha 0.7.1<br>172,349 bytes used</div><div class="world" id="1674688756646122110"><strong>building a space station</strong><br>Jan 25, 2023, 5:19 PM<br>Alpha 0.7.1<br>12,447 bytes used</div></div>
+	<p id="message" class="hidden" style="position: absolute; top: 10px; right: 10px; z-index: 1; text-align: right; background-color: rgba(255, 255, 255, 0.3);"></p>
+	
+    
+    <script>
+		// Code edits will erase the world.
+		// Place save code here to load your world. Make extra sure you got it copied so you don't paste in the wrong thing and delete your world on accident lol
+		window.loadString = ""
+	</script>
+    <div id="script"></div>
+        <script src="mk.js"></script>
+    </div-->
+
+
+    <div id="music" class="hidden">
+
+        <header id="music_header">
+            <button id="add_music_button" class="music_header_button" onCLick="document.getElementById('add_music').classList.remove('hidden')">Add a song</button>
+            <button id="header_button" onClick="document.getElementById('music').classList.add('hidden')"></button>
+        </header>
+
+        <header id="add_music" class="hidden">
+            <input class="add_music_button" id="artist" placeholder="artist">
+            <input class="add_music_button" id="track_num" placeholder="track #">
+            <input class="add_music_button" type="file" id="add-file"></input>
+            
+        </header>
+
+        <div id="music_lists"></div>
+
+        <script>
+
+            const fileAdder=document.getElementById("add-file"),
+            songs=[],
+            list=document.getElementById("music_lists"),
+            song_items=document.getElementsByClassName("song")
+            var fileList;
+            var songNum=0;
+
+            function editSong(num,title,artist){
+                if(num >= songNum || num < 0){
+                    console.error("You are trying to edit a song that doesn't exist")
+                    return;
+                }
+                if(title && artist){
+                    document.getElementById(`${num}_title`).innerText=title;
+                    document.getElementById(`${num}_artist`).innerText=artist;
+                }else{
+                    console.error(`missing argument @ editSong(${num},${title},${artist})`)
+                }
+            }
+            
+            function addSong(name){
+                var artist="Unknown"
+                if(document.getElementById("artist").value){
+                    artist = document.getElementById("artist").value;
+                }
+                var song=document.createElement("div");
+                song.className="song";
+                song.innerHTML=`
+                    <h1 id="${songNum}_title">${name}</h1>
+                    <p>By</p>
+                    <p id="${songNum}_artist">${artist}</p>
+                `
+                list.append(song);
+                songNum++
+            }
+            fileAdder.onchange=e=>{
+                fileList=e.target.files;
+                addSong(fileList[0].name.replace(".mp3",""))
+                const auxURL=URL.createObjectURL(fileList[0]);
+                songs.push(auxURL)
+                checkSongAmount();
+                document.getElementById("add_music").classList.add("hidden")
+            }
+            
+            var audio=new Audio;
+            function play(src) {
+                audio = new Audio(src);
+                audio.play();
+            }
+            function checkSongAmount(){
+                if(song_items.length>0){
+                    for(let i=0;i<song_items.length;i++){
+                        song_items[i].onclick=()=>{
+                            if(audio.src===songs[i]&&!audio.paused){
+                                audio.pause();
+                            }else if(audio.paused){
+                                audio=new Audio(songs[i]);
+                                audio.play();
+                            }else if(!audio.paused){
+                                audio.pause();
+                                audio.currentTime=0;
+                                console.log(audio)
+                                audio=new Audio(songs[i]);
+                                console.log(audio);
+                                setTimeout(function(){
+                                    audio.play();
+                                }, 3000 )
+                            }
+                        }
+                    }
+                }
+            }
+        </script>
+
+    </div>
+
+
+    <div id="cypher" class="hidden">
+
+        <header id="cypher_header">
+            <button id="header_button" onClick="document.getElementById('cypher').classList.add('hidden')"></button>
+        </header>
+
+        <input type="text" id="cypher_input" placeholder="Enter message">
+        <input type="text" id="cypher_function" placeholder="encode (e) / decode (d)" maxlength="1">
+        <input type="text" id="cypher_key" placeholder="key / password">
+        <h2 id="cypher_output"></h2>
+
+        <script src="crytpo.js"></script>
+
+        <script>
+
+            document.getElementById("cypher_input").onkeyup = (e) => {
+                var encryptedAES = CryptoJS.AES.encrypt("Message", "My Secret Passphrase");
+                var decryptedBytes = CryptoJS.AES.decrypt(encryptedAES, "My Secret Passphrase");
+                var plaintext = decryptedBytes.toString(CryptoJS.enc.Utf8);
+
+                var text = document.getElementById("cypher_input").value;
+                var key = document.getElementById("cypher_key").value;
+
+
+                switch(document.getElementById("cypher_function").value){
+                    case "e":
+                        console.log(`encrypted message:\n${CryptoJS.AES.encrypt(text,key)}\n\nkey:\n${key}`)
+                    break;
+                    case "d":
+                        console.log(`decrypted message:
+                        ${CryptoJS.AES.decrypt(text,key).toString(CryptoJS.enc.Utf8)}`)
+                    break;
+                    default:
+                        console.error(`Invalid key ${key}
+                        requires e or d.`)
+                }
+            }
+
+            
+        </script>
+
+    </div>
+
+
+    <footer id="footer">
+        <button class="footer_button" id="far_left_button" onClick="nav('timer')">
+            <img src="clock_icon.png" class="footer_button_image">
+        </button>
+
+        <button class="footer_button" onClick="nav('browser')">
+            <img src="browser.webp" class="footer_button_image">
+        </button>
+
+        <!--button class="footer_button" onClick="nav('minekhan')">
+            <img src="minekhan.ico" class="footer_button_image">
+        </button-->
+
+        <button class="footer_button" onClick="nav('music')">
+            <img src="music.webp" class="footer_button_image">
+        </button>
+
+        <button class="footer_button" onClick="nav('cypher')">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAB0UlEQVQ4jW3SS0tVYRQG4Oc7Z6dWRClaZoOKKExTDnTxDIJ+gBA0bNpfaNQ/6BfUsMuo5o0iIqxJF0uLHHVRiNLCUEGJ1LMa7O/kLtzw8V32et+11rveZPuvgb2V+2+sYbr9EBEJHcU2wCM4haMVkkV8xiHMYDalFBGxXiVoYgwXcBK96Mr/fmEB7/EUzzCFaBM0cB7jGM2ZU16wC/vQhz0ILGGulgNOoOlGrWm16LFU1C0VNdP1NkFCPVd1GucwlFKKImcfwrAzqdOlzfAwVLK398jn7lzlO8wUudwBHfYbTcmLiAqIi4lPOC4ZTzyKwr3oRz8OFtiBHo3U5UuUoH1oYQVXa3zFZPAgwv168mRjp3l9sDWFsVTXm3iV+57E5U0aiVstbrfKuJXKbDLBOn5qJq61ws3WVt/DicXgTgYPZCnnrOIH1LCMj8YkzyMqgjGWyqlHfjubeBkt4Ttm8a2GKYMWHE6FlmWDKQwmeoUmmXSLcCrW8FYp7WypwZX6qvmYdbfWbc2mTYXrLWrCxN+qNuy2biJe47HS0pVxlVYeUVp5BAcqcq1hHm+UTU3l9Q8Bpal6835MaeG29h8yaC73bzuCKlEXOvN9Oesw/X/gHxX+k8+Zk8eTAAAAAElFTkSuQmCC" class="footer_button_image">
+        </button>
+        <p id="time"></p>
+    </footer>
+
+    
+    <script>
+        var timeThingOnTaskBar = setInterval(()=>{
+        document.getElementById("time").innerHTML=Date().substring(16,28);
+    },1000);
+
+    function nav(appId){
+        //var appIds="timer browser minekhan music cypher".split(" ");
+        var appIds="timer browser music cypher".split(" ");
+        for(var i = 0; i < appIds.length; i++){
+            document.getElementById(appIds[i]).classList.add("hidden")
+        }
+        document.getElementById(appId).classList.remove("hidden")
+    }
+
+    </script>
+
+</body>
+</html>
+
+
+<!-- multi-page version
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <title id="title">Home | Chá OS</title>
+    <link rel='shortcut icon' type='img/png' href='favicon.png'>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
@@ -41,3 +470,5 @@
 
 </body>
 </html>
+
+-->

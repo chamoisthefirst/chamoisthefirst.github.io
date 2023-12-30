@@ -344,10 +344,10 @@
             <button id="header_button" onClick="document.getElementById('cypher').classList.add('hidden')"></button>
         </header>
 
-        <input type="text" id="cypher_input" placeholder="Enter message">
-        <input type="text" id="cypher_function" placeholder="encode (e) / decode (d)" maxlength="1">
-        <input type="text" id="cypher_key" placeholder="key / password">
-        <h2 id="cypher_output"></h2>
+        <input type="text" class="cypher_input" id="cypher_input" placeholder="Message">
+        <input type="text" class="cypher_input" id="cypher_output" placeholder="Coded Message">
+        <input type="text" class="cypher_input" id="cypher_key" placeholder="Key / Password" maxLength="32">
+        <input type="number" class="cypher_input" id="rerun_num" placeholder="loop count" max="9" maxLength="1">
 
         <script>
             var _____WB$wombat$assign$function_____ = function(name) {return (self._wb_wombat && self._wb_wombat.local_init && self._wb_wombat.local_init(name)) || self[name]; };
@@ -424,27 +424,45 @@
 
         <script>
 
-            document.getElementById("cypher_input").onkeyup = (e) => {
-                var encryptedAES = CryptoJS.AES.encrypt("Message", "My Secret Passphrase");
-                var decryptedBytes = CryptoJS.AES.decrypt(encryptedAES, "My Secret Passphrase");
-                var plaintext = decryptedBytes.toString(CryptoJS.enc.Utf8);
+            function rerun(text,key,count){
+                var msg = `${CryptoJS.AES.encrypt(text,key)}`;
+                for(var i = 0; i < count; i++){
+                    msg = `${CryptoJS.AES.encrypt(msg,key)}`;
+                }
+                return msg;
+            }
 
+            function unRerun(text,key,count){
+                var msg = `${CryptoJS.AES.decrypt(text,key).toString(CryptoJS.enc.Utf8)}`;
+                for(var i = 0; i < count; i++){
+                    msg = `${CryptoJS.AES.decrypt(msg,key).toString(CryptoJS.enc.Utf8)}`;
+                }
+                return msg;
+            }
+
+            document.getElementById("cypher_input").onkeyup = (e) => {
                 var text = document.getElementById("cypher_input").value;
                 var key = document.getElementById("cypher_key").value;
-
-
-                switch(document.getElementById("cypher_function").value){
-                    case "e":
-                        console.log(`encrypted message:\n${CryptoJS.AES.encrypt(text,key)}\n\nkey:\n${key}`)
-                    break;
-                    case "d":
-                        console.log(`decrypted message:
-                        ${CryptoJS.AES.decrypt(text,key).toString(CryptoJS.enc.Utf8)}`)
-                    break;
-                    default:
-                        console.error(`Invalid key ${key}
-                        requires e or d.`)
+                var count = document.getElementById("rerun_num").value;
+                if(!count){
+                    count = 0;
+                }else if(count > 32){
+                    count = 32;
                 }
+                document.getElementById("cypher_output").value=rerun(text,key,count)
+            }
+
+            document.getElementById("cypher_output").onkeyup = (e) => {
+
+                var text = document.getElementById("cypher_output").value;
+                var key = document.getElementById("cypher_key").value;
+                var count = document.getElementById("rerun_num").value;
+                if(!count){
+                    count = 0;
+                }else if(count > 32){
+                    count = 32;
+                }
+                document.getElementById("cypher_input").value=unRerun(text,key,count)
             }
 
             

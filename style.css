@@ -111,6 +111,21 @@ footer:hover{
 }
 
 
+/*Lockscreen*/
+
+
+#lockscreen{
+    width:100vw;
+    height:100vh;
+    background-color: #000c;
+}
+
+#lockscreen_input{
+    margin-top:49vh;
+    height:2vh;
+    width:50vw;
+}
+
 
 /*Timer app*/
 
@@ -359,5 +374,7 @@ footer:hover{
     border:solid 4px #303030;
     background-color:#131313;
 }
+
+
 
 

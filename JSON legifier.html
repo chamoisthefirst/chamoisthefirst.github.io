@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>JSON legifier</title>
+    </head>
+    <body>
+        <input id="input" type="text">
+        <h4 id="output"></h4>
+        <script>
+            
+            document.getElementById("input").onkeyup = (e)=>{
+                var output = "";
+                var output2 = "";
+                const CHARS = ", { }".split(" ")
+                var indent = "";
+                var lineNum = 2;
+                var input = document.getElementById("input").value;
+                for(var i = 0; i < input.length; i++){
+                    var curChar = input[i]
+                    if(input[i] === "{" && input[i+1] === "\""){
+                        indent += "  "
+                        output += `{<br>${indent}`
+                        output2 += `{\n${indent}`
+                    }else if(input[i] === "}" && input[i+1] != ","){
+                        indent = indent.substr(2)
+                        output += `}<br>${indent}`
+                        output2 += `}\n${indent}`
+                    }else if(input[i] === "}"){
+                        indent = indent.substr(2)
+                        output += `}${indent}`
+                        output2 += `}${indent}`
+                    }else if(curChar === ","){
+                        output += `,<br>${indent}`
+                        output2 += `,\n${indent}`
+                        lineNum++
+                    }else if(!CHARS.includes(curChar)){
+                        output += curChar
+                        output2 += curChar
+                    }
+                }
+                document.getElementById("output").innerHTML = output;
+                console.log(output2)
+            }
+        </script>
+    </body>
+</html>

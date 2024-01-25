@@ -3,44 +3,153 @@
     <head>
         <meta charset="utf-8">
         <title>JSON legifier</title>
+        <style>
+            body{
+                background-color:#272727;
+                color:#f1f1f1;
+                margin:2vw;
+            }
+
+            div{
+                display:inline;
+            }
+            input{
+                background-color:#303030;
+                color:hsl(0, 0%, 69%);
+                width:95vw;
+            }
+            .name{
+                color:rgb(98, 170, 215);
+            }
+            .string{
+                color:rgb(180, 100, 50);
+            }
+            .num{
+                color:rgb(180, 200, 130);
+            }
+            .bool{
+                color:rgb(0, 130, 150);
+            }
+        </style>
     </head>
     <body>
-        <input id="input" type="text">
-        <h4 id="output"></h4>
+        <input id="input" type="text"><br>
+        <div id="output"></div>
         <script>
+
+            let header = "div"
+            const NUMS = "0123456789".split("")
             
             document.getElementById("input").onkeyup = (e)=>{
                 var output = "";
                 var output2 = "";
                 const CHARS = ", { }".split(" ")
                 var indent = "";
-                var lineNum = 2;
                 var input = document.getElementById("input").value;
+                var op = false;
                 for(var i = 0; i < input.length; i++){
+                    var prevChar = input[i-1]
                     var curChar = input[i]
-                    if(input[i] === "{" && input[i+1] === "\""){
+                    var nextChar = input[i+1]
+                    
+                    if(curChar === "\"" && op === false){
+                        if(prevChar === "," || prevChar === "{"){
+                            output+=`<${header} class="name">`
+                            op = "name";
+                        }
+                        
+                    }
+                    
+                    output+=curChar
+
+                    if(prevChar === ":" && curChar === "[" && nextChar === "\""){
+                        output+=`<${header} class="string">`
+                        op = "array";
+                    }
+
+                    if(prevChar === "\"" && curChar === ":"){
+
+                        if(nextChar === "t" || nextChar === "f"){
+                            output+=`<${header} class="bool">`
+                            op = "bool";
+                        }else if(nextChar === "\""){
+                            output+=`<${header} class="string">`
+                            op = "string";
+                        }else if(NUMS.includes(nextChar)){
+                            output+=`<${header} class="num">`
+                            op = "num";
+                        }
+                    }
+
+                    switch(op){
+                        case "string":
+                            if(curChar === "\"" && nextChar === "," || nextChar === "}"){
+                                op = false;
+                                output+=`</${header}>`
+                            }
+                        break;
+                        case "num":
+                            if(nextChar === "," || nextChar === "}"){
+                                op = false;
+                                output+=`</${header}>`
+                            }
+                        break;
+                        case "bool":
+                            if(nextChar === "," || nextChar === "}"){
+                                op = false;
+                                output+=`</${header}>`
+                            }
+                        break;
+                        case "name":
+                            if(curChar === "\"" && nextChar === ":"){
+                                op = false;
+                                output+=`</${header}>`
+                            }
+                        break;
+                        case "array":
+                            if(curChar === "\"" && nextChar === "]"){
+                                op = false;
+                                output+=`</${header}>`
+                            }else if(curChar === "\"" && nextChar === ","){
+                                output+=`</${header}>`
+                            }else if(nextChar === "\"" && curChar === ","){
+                                output+=`<${header} class="string">`
+                            }
+                        break;
+                        default:
+                    }
+
+                }
+
+                console.log(output)
+
+                //This is what makes the code clean instead of one line
+                for(var i = 0; i < output.length; i++){
+                    curChar = output[i]
+                    nextChar = output[i+1]
+                    var array;
+
+                    if(curChar === "{" && nextChar === "\""){
                         indent += "| "
-                        output += `{<br>${indent}`
-                        output2 += `{\n${indent}`
-                    }else if(input[i] === "}" && input[i+1] != ","){
+                        output2 += `{<br>${indent}`
+                    }else if(curChar === "}" && nextChar != ","){
                         indent = indent.substr(2)
-                        output += `}<br>${indent}`
-                        output2 += `}\n${indent}`
-                    }else if(input[i] === "}"){
+                        output2 += `}<br>${indent}`
+                    }else if(curChar === "}"){
                         indent = indent.substr(2)
-                        output += `}${indent}`
                         output2 += `}${indent}`
-                    }else if(curChar === ","){
-                        output += `,<br>${indent}`
-                        output2 += `,\n${indent}`
-                        lineNum++
+                    }else if(curChar === "," && nextChar != '"'){
+                        output2 += `,<br>${indent}`
+                    }else if(curChar === "]" && nextChar != ","){
+                        indent = indent.substr(2)
+                        output2 += `]<br>${indent}`
                     }else if(!CHARS.includes(curChar)){
-                        output += curChar
                         output2 += curChar
                     }
+                    
                 }
-                document.getElementById("output").innerHTML = output;
-                console.log(output2)
+                document.getElementById("output").innerHTML = output2;
+                console.log(output)
             }
         </script>
     </body>

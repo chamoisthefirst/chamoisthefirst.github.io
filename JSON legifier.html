@@ -121,16 +121,14 @@
 
                 }
 
-                console.log(output)
-
                 //This is what makes the code clean instead of one line
                 for(var i = 0; i < output.length; i++){
                     curChar = output[i]
                     nextChar = output[i+1]
                     var array;
 
-                    if(curChar === "{" && nextChar === "\""){
-                        indent += "| "
+                    if(curChar === "{" && nextChar === "<"){
+                        indent += "  "
                         output2 += `{<br>${indent}`
                     }else if(curChar === "}" && nextChar != ","){
                         indent = indent.substr(2)
@@ -149,7 +147,6 @@
                     
                 }
                 document.getElementById("output").innerHTML = output2;
-                console.log(output)
             }
         </script>
     </body>

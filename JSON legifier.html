@@ -35,15 +35,20 @@
             .invalid{
                 color:#dd0000;
             }
+            #lineCount{
+                color:hsl(0, 0%, 69%);
+                text-align:right;
+            }
         </style>
     </head>
     <body>
+        <h5 id="lineCount"></h5>
         <textarea id="input" type="text"></textarea><br>
-        <div id="output"></div>
+        <pre id="output"></pre>
         <script>
 
             let header = "div"
-            const NUMS = "0123456789".split("")
+            const NUMS = "-0123456789".split("")
             
             document.getElementById("input").onkeyup = (e)=>{
                 var output = "";
@@ -136,6 +141,9 @@
                     }
 
                 }
+                
+                var lineNum = 1;
+                var lineNumOn=false;
 
                 //This is what makes the code clean instead of one line
                 for(var i = 0; i < output.length; i++){
@@ -144,28 +152,72 @@
                     prevChars = `${output2-4}${output2-3}${output2-2}${output2-1}`
                     var array;
                     indt = "   "
+                    lineNumIndt = "     "
+
+                    if(lineNum.length + lineNumIndt.length > 6){
+                        lineNumIndt = lineNumIndt.substr(lineNum.length + lineNumIndt.length - 6)
+                    }
+
+                    if(lineNumOn === true){
 
                     if(curChar === "{" && nextChar === "<"){
+                        lineNum++;
+                        indent += indt
+                        output2 += `{<br>${lineNum}${lineNumIndt}${indent}`
+                    }else if(curChar === "}" && nextChar != ","){
+                        lineNum+=2;
+                        indent = indent.substr(indt.length)
+                        output2 += `<br>${lineNum-1}${lineNumIndt}${indent}}<br>${lineNum}${lineNumIndt}${indent}`
+                    }else if(curChar === "}"){
+                        indent = indent.substr(indt.length)
+                        lineNum++
+                        output2 += `<br>${lineNum}${lineNumIndt}${indent}}`
+                    }else if(curChar === "," && nextChar != '"'){
+                        lineNum++
+                        output2 += `,<br>${lineNum}${lineNumIndt}${indent}`
+                    }else if(curChar === ","){
+                        output2+=","
+                    }else if(curChar === "]" && nextChar != ","){
+                        lineNum++
+                        output2 += `]<br>${lineNum}${lineNumIndt}${indent}`
+                    }else if(!CHARS.includes(curChar)){
+                        output2 += curChar
+                    }
+                }else{
+
+
+
+                        if(curChar === "{" && nextChar === "<"){
+                        lineNum++
                         indent += indt
                         output2 += `{<br>${indent}`
                     }else if(curChar === "}" && nextChar != ","){
+                        lineNum+=2;
                         indent = indent.substr(indt.length)
                         output2 += `<br>${indent}}<br>${indent}`
                     }else if(curChar === "}"){
+                        lineNum++
                         indent = indent.substr(indt.length)
                         output2 += `<br>${indent}}`
                     }else if(curChar === "," && nextChar != '"'){
+                        lineNum++
                         output2 += `,<br>${indent}`
                     }else if(curChar === ","){
                         output2+=","
                     }else if(curChar === "]" && nextChar != ","){
+                        lineNum++
                         output2 += `]<br>${indent}`
                     }else if(!CHARS.includes(curChar)){
                         output2 += curChar
                     }
+
+                    
+                    }
                     
                 }
-                document.getElementById("output").innerHTML = `<pre>${output2}</pre>`;
+                document.getElementById("lineCount").innerText = `${lineNum} total lines`
+                document.getElementById("output").innerHTML = output2
+                
             }
         </script>
     </body>

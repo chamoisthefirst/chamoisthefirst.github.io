@@ -32,6 +32,9 @@
             .bool{
                 color:rgb(0, 130, 150);
             }
+            .invalid{
+                color:#dd0000;
+            }
         </style>
     </head>
     <body>
@@ -49,10 +52,12 @@
                 var indent = "";
                 var input = document.getElementById("input").value;
                 var op = false;
+                var otherChars = "abcdefghijklmnopqrstuvwxyz!@#$%^&*()-=_+]};':./<>?"
                 for(var i = 0; i < input.length; i++){
                     var prevChar = input[i-1]
                     var curChar = input[i]
                     var nextChar = input[i+1]
+                    var nextChars = `${input[i+1]}${input[i+2]}${input[i+3]}${input[i+4]}`
                     
                     if(curChar === "\"" && op === false){
                         if(prevChar === "," || prevChar === "{"){
@@ -60,6 +65,12 @@
                             op = "name";
                         }
                         
+                    }
+
+                    
+                    if(CHARS.includes(curChar) && op === "invalid"){
+                        output+=`</${header}>`
+                        op = false;
                     }
                     
                     output+=curChar
@@ -71,7 +82,7 @@
 
                     if(prevChar === "\"" && curChar === ":"){
 
-                        if(nextChar === "t" || nextChar === "f" || nextChar === "n"){
+                        if(nextChars === "true" || nextChars === "fals" || nextChars === "null"){
                             output+=`<${header} class="bool">`
                             op = "bool";
                         }else if(nextChar === "\""){
@@ -80,6 +91,9 @@
                         }else if(NUMS.includes(nextChar)){
                             output+=`<${header} class="num">`
                             op = "num";
+                        }else if(otherChars.includes(nextChar)){
+                            output+=`<${header} class="invalid">`
+                            op = "invalid";
                         }
                     }
 
@@ -127,6 +141,7 @@
                 for(var i = 0; i < output.length; i++){
                     curChar = output[i]
                     nextChar = output[i+1]
+                    prevChars = `${output2-4}${output2-3}${output2-2}${output2-1}`
                     var array;
                     indt = "   "
 
@@ -135,10 +150,10 @@
                         output2 += `{<br>${indent}`
                     }else if(curChar === "}" && nextChar != ","){
                         indent = indent.substr(indt.length)
-                        output2 += `}<br>${indent}`
+                        output2 += `<br>${indent}}<br>${indent}`
                     }else if(curChar === "}"){
                         indent = indent.substr(indt.length)
-                        output2 += `}`
+                        output2 += `<br>${indent}}`
                     }else if(curChar === "," && nextChar != '"'){
                         output2 += `,<br>${indent}`
                     }else if(curChar === ","){

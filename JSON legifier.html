@@ -71,7 +71,7 @@
 
                     if(prevChar === "\"" && curChar === ":"){
 
-                        if(nextChar === "t" || nextChar === "f"){
+                        if(nextChar === "t" || nextChar === "f" || nextChar === "n"){
                             output+=`<${header} class="bool">`
                             op = "bool";
                         }else if(nextChar === "\""){
